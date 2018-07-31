@@ -1,0 +1,29 @@
+git创建关联的父子仓库
+一、新建两个git仓库，
+建立一个负责业务的master仓库，一个业务模块需要依赖的公共common仓库。
+二、正常拉取主仓库的代码到本地
+git clone ssh://git地址 
+三、进入主仓库，并添加子仓库
+git submodule add ssh://git地址.git    lib
+//添加成功后主仓库根目录增加了.gitmodule文件
+、、、、、、
+检出
+四、添加完子仓库后，需要进一步克隆子仓库文件
+git submodule init // 初始化本地配置文件
+git submodule update // 检出主仓库列出的commit
+或者组合命令
+git submodule update --init --recursive
+
+五、在子仓库common中切换到master分支，并且git pull更新代码，这之后主仓库的代码也要提交修改的，因为子仓库变化会导致主仓库变化
+及在子仓库目录下进行更新代码，git checkout master;    git  pull 
+切换到主仓库根目录，即先cd 根目录； git add .   ;  git commit -m "aa" ; git push origin -u master
+
+六、在主目录也是可以修改子仓库的，需要进行提交修改。
+
+七、删除子仓库
+删除 .gitsubmodule里相关部分
+删除 .git/config 文件里相关字段
+删除子仓库目录
+git rm  --cached <本地路径>
+
+//如果未按照上述步骤删除，可能残留在.git/modudles文件夹内
